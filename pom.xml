@@ -7,7 +7,6 @@
     <groupId>com.hack</groupId>
     <artifactId>Hack</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Hack</name>
     <packaging>war</packaging>
 
     <properties>
