@@ -1,6 +1,7 @@
 package com.hack.hack.controller;
 
 import com.hack.hack.model.Supervisor;
+import com.hack.hack.model.data.DBGenerator;
 import com.hack.hack.model.data.dao.ParticipanteDAO;
 import com.hack.hack.model.data.dao.SupervisorDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -15,6 +16,15 @@ import java.io.IOException;
 
 @WebServlet(name = "supervisorServlet", value = "/supervisor")
 public class SupervisorServlet extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            DBGenerator.iniciarBD("hackathon");
+        } catch (ClassNotFoundException e) {
+            throw new ServletException("Error initializing database", e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

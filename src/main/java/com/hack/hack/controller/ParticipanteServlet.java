@@ -1,6 +1,7 @@
 package com.hack.hack.controller;
 
 import com.hack.hack.model.Participante;
+import com.hack.hack.model.data.DBGenerator;
 import com.hack.hack.model.data.dao.ParticipanteDAO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,15 @@ import java.io.IOException;
 
 @WebServlet(name = "participanteServlet", value = "/participante")
 public class ParticipanteServlet extends HttpServlet {
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            DBGenerator.iniciarBD("hackathon");
+        } catch (ClassNotFoundException e) {
+            throw new ServletException("Error initializing database", e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
