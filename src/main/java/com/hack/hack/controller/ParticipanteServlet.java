@@ -40,7 +40,7 @@ public class ParticipanteServlet extends HttpServlet {
             try {
                 ParticipanteDAO participanteDAO = new ParticipanteDAO();
                 Participante participante = participanteDAO.obtenerParticipantePorCorreo(correo);
-                req.setAttribute("participante", participante);
+                session.setAttribute("participante", participante);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("perfil.jsp");
                 dispatcher.forward(req, resp);
             } catch (ClassNotFoundException e) {
@@ -53,6 +53,7 @@ public class ParticipanteServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher respuesta = req.getRequestDispatcher("/index.jsp");
         String action = req.getParameter("action");
         ParticipanteDAO participanteDAO = new ParticipanteDAO();
 
@@ -66,26 +67,32 @@ public class ParticipanteServlet extends HttpServlet {
             Participante participante = new Participante(0, nombre, contrasena, correo, contacto, rut, null, null);
             try {
                 participanteDAO.agregarParticipante(participante);
-                resp.sendRedirect("login.jsp");
+                respuesta= req.getRequestDispatcher("/index.jsp");
             } catch (ClassNotFoundException e) {
                 throw new ServletException("Error registering participant", e);
             }
         } else if ("ingresar".equals(action)) {
+            System.out.println("Ingresando");
             String correo = req.getParameter("correo");
             String contrasena = req.getParameter("contrasena");
 
             try {
                 boolean esValido = participanteDAO.validarParticipante(correo, contrasena);
                 if (esValido) {
-                    HttpSession session = req.getSession();
-                    session.setAttribute("correo", correo);
-                    resp.sendRedirect("perfil.jsp");
-                } else {
-                    resp.sendRedirect("login.jsp?error=1");
-                }
+                    System.out.println("es valido");
+                    //HttpSession session = req.getSession();
+                    //session.setAttribute("correo", correo);
+                    req.setAttribute("participante",participanteDAO.obtenerParticipantePorCorreo(correo));
+                    respuesta = req.getRequestDispatcher("/perfil.jsp");
+                    //resp.sendRedirect("perfil.jsp?action=perfil");
+                } //else {
+                    //resp.sendRedirect("login.jsp?error=1");
+                //}
             } catch (ClassNotFoundException e) {
                 throw new ServletException("Error logging in participant", e);
             }
+
         }
+        respuesta.forward(req,resp);
     }
 }

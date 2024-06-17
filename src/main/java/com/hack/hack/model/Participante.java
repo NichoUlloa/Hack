@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Participante {
 
-    // atributos: id, nombreCompleto, contrasena, correo, numeroContacto, Rut, fechaAsignada, codigoEntrada.
+    // Participante atributos: id, nombreCompleto, contrasena, correo, numeroContacto, Rut, fechaAsignada, codigoEntrada.
     private int idParticipante;
     private String nombreCompleto;
     private String contrasena;

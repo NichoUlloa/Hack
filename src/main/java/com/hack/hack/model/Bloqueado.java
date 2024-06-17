@@ -1,7 +1,7 @@
 package com.hack.hack.model;
 
 public class Bloqueado {
-    // atributos: correo
+    // Bloqueado atributos: correo
     private String correo;
 
     // constructor

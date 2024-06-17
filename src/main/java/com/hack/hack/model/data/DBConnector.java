@@ -13,7 +13,6 @@ public class DBConnector {
         return INSTANCE;
     }
 
-    // Realiza la conexión para MySQL sin una base de datos específica
     public static Connection connection(String username, String password) throws ClassNotFoundException {
         try {
             if (connection == null || connection.isClosed()) {
@@ -26,7 +25,6 @@ public class DBConnector {
         return connection;
     }
 
-    // Realiza la conexión para una base de datos SQL específica
     public static Connection connection(String db, String username, String password) {
         try {
             if (connection == null || connection.isClosed()) {
@@ -39,7 +37,6 @@ public class DBConnector {
         return connection;
     }
 
-    // Cierra el nodo de conexión
     public static void closeConnection() {
         try {
             connection.close();
@@ -49,10 +46,19 @@ public class DBConnector {
         }
     }
 
-    // Realiza la conexión a la base de datos
-    private static Connection doConnection(String db, String username, String password) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        String dbURL = URL + db;
-        return DriverManager.getConnection(dbURL, username, password);
+    private static Connection doConnection(String db, String username, String password) throws ClassNotFoundException {
+        Connection conn;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(URL + db, username, password);
+        } catch (SQLException e) {
+            System.err.println("Error al crear la conexión: " + e);
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error al crear la conexión: " + e);
+            throw new ClassNotFoundException(e.toString());
+        }
+        System.out.println("Conexion creada : " + conn);
+        return conn;
     }
 }

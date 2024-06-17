@@ -1,36 +1,30 @@
+
 <%@ page import="com.hack.hack.model.Participante" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
 <%
-    HttpSession session = request.getSession(false);
-    if (session == null || session.getAttribute("correo") == null) {
+    Participante participante = (Participante) session.getAttribute("participante");
+    if (participante == null) {
         response.sendRedirect("login.jsp");
         return;
     }
-    Participante participante = (Participante) request.getAttribute("participante");
 %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Perfil del Participante</title>
-    <link rel="stylesheet" type="text/css" href="css/estilos.css">
+    <title>Perfil de Participante</title>
 </head>
 <body>
-<header>
-    <h1>Perfil del Participante</h1>
-</header>
-<main>
-    <section>
-        <h2>Información Personal</h2>
-        <p><strong>Nombre Completo:</strong> <%= participante.getNombreCompleto() %></p>
-        <p><strong>Correo:</strong> <%= participante.getCorreo() %></p>
-        <p><strong>Número de Contacto:</strong> <%= participante.getNumeroContacto() %></p>
-        <p><strong>RUT:</strong> <%= participante.getRut() %></p>
-        <p><strong>Fecha Asignada:</strong> <%= participante.getFechaAsignada() %></p>
-        <p><strong>Código de Entrada:</strong> <%= participante.getCodigoEntrada() %></p>
-    </section>
-</main>
-<footer>
-    <p>&copy; 2023 Hackathon</p>
-</footer>
+<h2>Perfil de Participante</h2>
+<p>Nombre Completo: <%= participante.getNombreCompleto() %></p>
+<p>Correo: <%= participante.getCorreo() %></p>
+<p>Número de Contacto: <%= participante.getNumeroContacto() %></p>
+<p>RUT: <%= participante.getRut() %></p>
+<p>Fecha Asignada: <%= participante.getFechaAsignada() != null ? participante.getFechaAsignada() : "No asignada" %></p>
+<p>Código de Entrada: <%= participante.getCodigoEntrada() != null ? participante.getCodigoEntrada() : "No generado" %></p>
+<form action="participante" method="get">
+    <input type="hidden" name="action" value="modificarContacto">
+    <label for="nuevoContacto">Nuevo Número de Contacto:</label>
+    <input type="text" id="nuevoContacto" name="nuevoContacto" required><br>
+    <button type="submit">Modificar Contacto</button>
+</form>
 </body>
 </html>

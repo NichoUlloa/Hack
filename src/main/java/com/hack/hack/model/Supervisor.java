@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Supervisor {
 
-    // atributos: idSupervisor, correo, contrasena
+    // Supervidor atributos: idSupervisor, correo, contrasena
     private int idSupervisor;
     private String correo;
     private String contrasena;
